@@ -1,3 +1,4 @@
+using CampusLoveExamen.Modules.Persona.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace CampusLoveExamen.src.Shared.Context
@@ -8,10 +9,10 @@ namespace CampusLoveExamen.src.Shared.Context
         {
         }
 
-        public DbSet<Entidad> Entidades => Set<Entidad>();
+        public DbSet<Persona> Entidades => Set<Persona>();
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Entidad>().ToTable("entidad");
+            modelBuilder.Entity<Persona>().ToTable("Persona");
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }

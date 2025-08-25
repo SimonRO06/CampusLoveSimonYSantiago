@@ -1,3 +1,8 @@
+INTEGRANTES:
+
+- Simon Rubiano Ortiz
+- Santiago Valderrama Laiton
+
 Campus Love es una aplicación de consola en C# que simula un sistema de emparejamiento. El proyecto busca implementar un flujo completo donde los usuarios pueden registrarse, ver perfiles de otras personas, hacer “like” o “dislike” y revisar sus coincidencias (matches). 
 
 
