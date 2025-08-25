@@ -3,6 +3,18 @@ INTEGRANTES:
 - Simon Rubiano Ortiz
 - Santiago Valderrama Laiton
 
+## Paquetes de instalacion
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore
+dotnet add package Pomelo.EntityFrameworkCore.MySql --version 9.0.0-rc.1.efcore.9.0.0
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.Extensions.Configuration
+dotnet add package Microsoft.Extensions.Configuration.Json
+dotnet add package Microsoft.Extensions.Configuration.EnvironmentVariables
+dotnet add package MySql.Data --version 9.4.0
+```
+
 Campus Love es una aplicación de consola en C# que simula un sistema de emparejamiento. El proyecto busca implementar un flujo completo donde los usuarios pueden registrarse, ver perfiles de otras personas, hacer “like” o “dislike” y revisar sus coincidencias (matches). 
 
 
