@@ -80,3 +80,42 @@ Usa List<Usuario>, Dictionary<int, List<int>> para guardar likes.
 Usa LINQ para buscar matches, ordenar por likes, contar usuarios.
 Aplica el patrón Strategy para definir reglas de emparejamiento (por intereses, edad, carrera).
 Usa Math.Min, Math.Max para controlar cantidad de likes diarios.
+
+## BASE DE DATOS
+
+```cs
+DROP DATABASE DbCampusLove;
+
+CREATE DATABASE DbCampusLove;
+
+USE DbCampusLove;
+
+CREATE TABLE Persona (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL,
+    Edad INT NOT NULL,
+    Genero CHAR(1) NOT NULL,
+    CarreraId INT,
+    Frase VARCHAR(255),
+    FOREIGN KEY (CarreraId) REFERENCES Carrera(Id)
+);
+
+CREATE TABLE Carrera (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Interes (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Persona_Interes (
+    PersonaId INT,
+    InteresId INT,
+    PRIMARY KEY (PersonaId, InteresId),
+    FOREIGN KEY (PersonaId) REFERENCES Persona(Id),
+    FOREIGN KEY (InteresId) REFERENCES Interes(Id)
+);
+
+```

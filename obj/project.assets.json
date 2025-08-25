@@ -4505,19 +4505,19 @@
     ]
   },
   "packageFolders": {
-    "/home/camper/.nuget/packages/": {}
+    "C:\\Users\\simon\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/camper/CampusLoveExamen/CampusLoveExamen.csproj",
+      "projectUniqueName": "C:\\Users\\simon\\CampusLoveSimonYSantiago\\CampusLoveExamen.csproj",
       "projectName": "CampusLoveExamen",
-      "projectPath": "/home/camper/CampusLoveExamen/CampusLoveExamen.csproj",
-      "packagesPath": "/home/camper/.nuget/packages/",
-      "outputPath": "/home/camper/CampusLoveExamen/obj/",
+      "projectPath": "C:\\Users\\simon\\CampusLoveSimonYSantiago\\CampusLoveExamen.csproj",
+      "packagesPath": "C:\\Users\\simon\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\simon\\CampusLoveSimonYSantiago\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/camper/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -4541,7 +4541,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -4594,7 +4594,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
