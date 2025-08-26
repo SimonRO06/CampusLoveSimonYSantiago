@@ -87,33 +87,24 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
             }
         }
 
-        public async Task MostrarMatches(int personaId)
-        {
-            var matches = await _context.Matches
-                .Include(m => m.Persona1)
-                .Include(m => m.Persona2)
-                .Where(m => m.Persona1Id == personaId || m.Persona2Id == personaId)
-                .ToListAsync();
-
-            if (!matches.Any())
-            {
-                Console.WriteLine("No tienes matches aún. 😢");
-                return;
-            }
-
-            Console.WriteLine("\n💖 TUS MATCHES:");
-            foreach (var match in matches)
-            {
-                var otraPersona = match.Persona1Id == personaId ? match.Persona2 : match.Persona1;
-                Console.WriteLine($"• {otraPersona!.Nombre} (ID: {otraPersona.Id}) - {match.FechaMatch:dd/MM/yyyy}");
-            }
-        }
-
         public async Task MostrarPersonasParaLike(int personaActualId)
         {
+            var likesDados = await _context.Likes
+                .Where(l => l.PersonaQueDaLikeId == personaActualId)
+                .Select(l => l.PersonaQueRecibeLikeId)
+                .ToListAsync();
+
+            var matches = await _context.Matches
+                .Where(m => m.Persona1Id == personaActualId || m.Persona2Id == personaActualId)
+                .Select(m => m.Persona1Id == personaActualId ? m.Persona2Id : m.Persona1Id)
+                .ToListAsync();
+
+            var idsExcluidos = likesDados.Union(matches).Append(personaActualId).ToList();
+
             var personas = await _context.Personas
-                .Where(p => p.Id != personaActualId)
+                .Where(p => !idsExcluidos.Contains(p.Id))
                 .Include(p => p.Carrera)
+                .OrderBy(p => p.Nombre)
                 .ToListAsync();
 
             if (!personas.Any())
@@ -123,9 +114,88 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
             }
 
             Console.WriteLine("\n👥 PERSONAS DISPONIBLES:");
+            Console.WriteLine("==============================================");
+            
             foreach (var persona in personas)
             {
-                Console.WriteLine($"ID: {persona.Id} | {persona.Nombre} | {persona.Edad} años | {persona.Genero} | {persona.Carrera?.Nombre}");
+                Console.WriteLine($"ID: {persona.Id} | {persona.Nombre} | {persona.Edad} años | {persona.Genero} | {persona.Carrera?.Nombre ?? "Sin carrera"}");
+            }
+            
+            Console.WriteLine("==============================================");
+            Console.WriteLine($"Total: {personas.Count} personas disponibles");
+        }
+
+        public async Task MostrarPersonasParaLikePaginado(int personaActualId, int pagina = 1, int porPagina = 10)
+        {
+            var likesDados = await _context.Likes
+                .Where(l => l.PersonaQueDaLikeId == personaActualId)
+                .Select(l => l.PersonaQueRecibeLikeId)
+                .ToListAsync();
+
+            var matches = await _context.Matches
+                .Where(m => m.Persona1Id == personaActualId || m.Persona2Id == personaActualId)
+                .Select(m => m.Persona1Id == personaActualId ? m.Persona2Id : m.Persona1Id)
+                .ToListAsync();
+
+            var idsExcluidos = likesDados.Union(matches).Append(personaActualId).ToList();
+
+            var query = _context.Personas
+                .Where(p => !idsExcluidos.Contains(p.Id))
+                .Include(p => p.Carrera)
+                .OrderBy(p => p.Nombre);
+
+            var totalPersonas = await query.CountAsync();
+            var personas = await query
+                .Skip((pagina - 1) * porPagina)
+                .Take(porPagina)
+                .ToListAsync();
+
+            if (!personas.Any())
+            {
+                Console.WriteLine("No hay personas disponibles para dar like.");
+                return;
+            }
+
+            Console.WriteLine($"\n👥 PERSONAS DISPONIBLES (Página {pagina}):");
+            Console.WriteLine("==============================================");
+            
+            foreach (var persona in personas)
+            {
+                Console.WriteLine($"ID: {persona.Id} | {persona.Nombre} | {persona.Edad} años | {persona.Genero} | {persona.Carrera?.Nombre ?? "Sin carrera"}");
+            }
+            
+            Console.WriteLine("==============================================");
+            Console.WriteLine($"Mostrando {personas.Count} de {totalPersonas} personas disponibles");
+            Console.WriteLine($"Usa 'siguiente' para ver más o 'anterior' para volver");
+        }
+
+        public async Task MostrarMatches(int personaId)
+        {
+            var matches = await _context.Matches
+                .Include(m => m.Persona1)
+                .Include(m => m.Persona2)
+                .Include(m => m.Persona1!.Carrera)
+                .Include(m => m.Persona2!.Carrera)
+                .Where(m => m.Persona1Id == personaId || m.Persona2Id == personaId)
+                .OrderByDescending(m => m.FechaMatch)
+                .ToListAsync();
+
+            if (!matches.Any())
+            {
+                Console.WriteLine("No tienes matches aún. 😢");
+                return;
+            }
+
+            Console.WriteLine($"\n💖 TUS MATCHES ({matches.Count}):");
+            Console.WriteLine("==============================================");
+            
+            foreach (var match in matches)
+            {
+                var otraPersona = match.Persona1Id == personaId ? match.Persona2 : match.Persona1;
+                Console.WriteLine($"• {otraPersona!.Nombre} ({otraPersona.Edad} años, {otraPersona.Genero})");
+                Console.WriteLine($"  Carrera: {otraPersona.Carrera?.Nombre ?? "No especificada"}");
+                Console.WriteLine($"  Match desde: {match.FechaMatch:dd/MM/yyyy HH:mm}");
+                Console.WriteLine("----------------------------------------------");
             }
         }
     }
