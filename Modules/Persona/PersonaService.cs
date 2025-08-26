@@ -13,7 +13,7 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
             _context = context;
         }
 
-        public void CrearPersona()
+        public async Task CrearPersona()
         {
             try
             {
@@ -75,9 +75,8 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
                     CarreraId = carreraId
                 };
 
-                _context.Personas.Add(persona);
-                _context.SaveChanges();
-
+                await _context.Personas.AddAsync(persona);
+                await _context.SaveChangesAsync();
                 Console.WriteLine($"✅ Persona '{nombre}' creada exitosamente (ID: {persona.Id})");
             }
             catch (Exception ex)

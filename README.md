@@ -136,8 +136,8 @@ CREATE TABLE Matches (
     Persona2Id INT NOT NULL,
     FechaMatch TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     EsMatchMutuo BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (Persona1Id) REFERENCES Persona(Id),
-    FOREIGN KEY (Persona2Id) REFERENCES Persona(Id),
+    FOREIGN KEY (Persona1Id) REFERENCES Personas(Id),
+    FOREIGN KEY (Persona2Id) REFERENCES Personas(Id),
     UNIQUE KEY UniqueMatch (Persona1Id, Persona2Id),
     CHECK (Persona1Id < Persona2Id)
 );
@@ -147,8 +147,8 @@ CREATE TABLE Likes (
     PersonaQueDaLikeId INT NOT NULL,
     PersonaQueRecibeLikeId INT NOT NULL,
     FechaLike TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (PersonaQueDaLikeId) REFERENCES Persona(Id),
-    FOREIGN KEY (PersonaQueRecibeLikeId) REFERENCES Persona(Id),
+    FOREIGN KEY (PersonaQueDaLikeId) REFERENCES Personas(Id),
+    FOREIGN KEY (PersonaQueRecibeLikeId) REFERENCES Personas(Id),
     UNIQUE KEY UniqueLike (PersonaQueDaLikeId, PersonaQueRecibeLikeId),
     CHECK (PersonaQueDaLikeId != PersonaQueRecibeLikeId)
 );

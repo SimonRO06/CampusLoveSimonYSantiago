@@ -68,7 +68,7 @@ class Program
                         Console.Clear();
                         Console.WriteLine("👤 CREAR NUEVA PERSONA");
                         Console.WriteLine("======================");
-                        personaService.CrearPersona();
+                        await personaService.CrearPersona();
                     });
                     break;
                     
