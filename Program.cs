@@ -171,10 +171,6 @@ class Program
     static Task ListarTodasLasPersonas(PersonaService personaService)
     {
         Console.Clear();
-        Console.WriteLine("📋 LISTA DE TODAS LAS PERSONAS");
-        Console.WriteLine("==============================");
-        
-        Console.WriteLine("⚠️  Función en desarrollo...");
         Console.WriteLine("Por ahora use la opción 4 para ver personas disponibles.");
         return Task.CompletedTask;
     }
