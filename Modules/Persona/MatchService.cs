@@ -86,7 +86,7 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
                 var persona2 = await _context.Personas.FindAsync(persona2Id);
 
                 Console.WriteLine("\n🎉 ¡MATCH!");
-                Console.WriteLine($"💕 {persona1.Nombre} y {persona2.Nombre} han hecho match!");
+                Console.WriteLine($"💕 {persona1!.Nombre} y {persona2!.Nombre} han hecho match!");
                 Console.WriteLine("¡Pueden comenzar a chatear!");
             }
         }
@@ -109,7 +109,7 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
             foreach (var match in matches)
             {
                 var otraPersona = match.Persona1Id == personaId ? match.Persona2 : match.Persona1;
-                Console.WriteLine($"• {otraPersona.Nombre} (ID: {otraPersona.Id}) - {match.FechaMatch:dd/MM/yyyy}");
+                Console.WriteLine($"• {otraPersona!.Nombre} (ID: {otraPersona.Id}) - {match.FechaMatch:dd/MM/yyyy}");
             }
         }
 

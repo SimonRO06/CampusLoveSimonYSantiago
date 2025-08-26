@@ -12,12 +12,10 @@ class Program
     {
         try
         {
-            // Cargar configuración
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            // Configurar DbContext
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionsBuilder.UseMySql(
                 configuration.GetConnectionString("DefaultConnection"),

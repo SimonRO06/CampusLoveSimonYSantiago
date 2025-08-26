@@ -140,3 +140,4 @@ C:\Users\simon\CampusLoveSimonYSantiago\obj\Debug\net9.0\refint\CampusLoveExamen
 C:\Users\simon\CampusLoveSimonYSantiago\obj\Debug\net9.0\CampusLoveExamen.pdb
 C:\Users\simon\CampusLoveSimonYSantiago\obj\Debug\net9.0\CampusLoveExamen.genruntimeconfig.cache
 C:\Users\simon\CampusLoveSimonYSantiago\obj\Debug\net9.0\ref\CampusLoveExamen.dll
+C:\Users\simon\CampusLoveSimonYSantiago\bin\Debug\net9.0\appsettings.json
