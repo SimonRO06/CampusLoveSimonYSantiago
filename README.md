@@ -96,25 +96,25 @@ Usa Math.Min, Math.Max para controlar cantidad de likes diarios.
 ## BASE DE DATOS
 
 ```cs
-DROP DATABASE DbCampusLove;
+DROP DATABASE IF EXISTS DbCampusLove;
 
 CREATE DATABASE DbCampusLove;
 
 USE DbCampusLove;
 
-CREATE TABLE Persona (
+CREATE TABLE Carreras (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Personas (
     Id INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(100) NOT NULL,
     Edad INT NOT NULL,
     Genero CHAR(1) NOT NULL,
     CarreraId INT,
     Frase VARCHAR(255),
-    FOREIGN KEY (CarreraId) REFERENCES Carrera(Id)
-);
-
-CREATE TABLE Carrera (
-    Id INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre VARCHAR(100) NOT NULL
+    FOREIGN KEY (CarreraId) REFERENCES Carreras(Id)
 );
 
 CREATE TABLE Interes (
@@ -130,4 +130,41 @@ CREATE TABLE Persona_Interes (
     FOREIGN KEY (InteresId) REFERENCES Interes(Id)
 );
 
+CREATE TABLE Matches (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    Persona1Id INT NOT NULL,
+    Persona2Id INT NOT NULL,
+    FechaMatch TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    EsMatchMutuo BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (Persona1Id) REFERENCES Persona(Id),
+    FOREIGN KEY (Persona2Id) REFERENCES Persona(Id),
+    UNIQUE KEY UniqueMatch (Persona1Id, Persona2Id),
+    CHECK (Persona1Id < Persona2Id)
+);
+
+CREATE TABLE Likes (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    PersonaQueDaLikeId INT NOT NULL,
+    PersonaQueRecibeLikeId INT NOT NULL,
+    FechaLike TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (PersonaQueDaLikeId) REFERENCES Persona(Id),
+    FOREIGN KEY (PersonaQueRecibeLikeId) REFERENCES Persona(Id),
+    UNIQUE KEY UniqueLike (PersonaQueDaLikeId, PersonaQueRecibeLikeId),
+    CHECK (PersonaQueDaLikeId != PersonaQueRecibeLikeId)
+);
+
+INSERT INTO Carreras (Nombre) VALUES 
+('Ingeniería de Sistemas'),
+('Medicina'),
+('Derecho'),
+('Administración'),
+('Psicología');
+
+INSERT INTO Interes (Nombre) VALUES 
+('Deportes'),
+('Música'),
+('Arte'),
+('Tecnología'),
+('Lectura'),
+('Viajes');
 ```

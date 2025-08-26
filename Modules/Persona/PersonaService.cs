@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CampusLoveSimonYSantiago.Shared;
 
 namespace CampusLoveSimonYSantiago.Modules.Persona
@@ -17,37 +15,75 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
 
         public void CrearPersona()
         {
-            Console.Write("Ingrese el nombre: ");
-            string nombre = Console.ReadLine() ?? string.Empty;
-
-            Console.Write("Ingrese la edad: ");
-            int edad = int.Parse(Console.ReadLine() ?? "0");
-
-            Console.Write("Ingrese el género: ");
-            string genero = Console.ReadLine() ?? string.Empty;
-
-            Console.WriteLine("\n--- Carreras disponibles ---");
-            var carreras = _context.Carreras.ToList();
-            foreach (var c in carreras)
+            try
             {
-                Console.WriteLine($"ID: {c.Id} - {c.Nombre}");
+                Console.Write("Ingrese el nombre: ");
+                string nombre = Console.ReadLine()?.Trim() ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(nombre))
+                {
+                    Console.WriteLine("❌ El nombre no puede estar vacío.");
+                    return;
+                }
+
+                Console.Write("Ingrese la edad: ");
+                if (!int.TryParse(Console.ReadLine(), out int edad) || edad < 18 || edad > 100)
+                {
+                    Console.WriteLine("❌ Edad inválida. Debe ser entre 18 y 100 años.");
+                    return;
+                }
+
+                Console.Write("Ingrese el género (M/F): ");
+                string genero = Console.ReadLine()?.Trim()?.ToUpper() ?? string.Empty;
+                if (genero.ToUpper() != "M" && genero != "F")
+                {
+                    Console.WriteLine("❌ El género debe ser 'M' o 'F'.");
+                    return;
+                }
+
+                Console.WriteLine("\n--- Carreras disponibles ---");
+                var carreras = _context.Carreras.ToList();
+                if (!carreras.Any())
+                {
+                    Console.WriteLine("❌ No hay carreras disponibles. Primero crea carreras.");
+                    return;
+                }
+
+                foreach (var c in carreras)
+                {
+                    Console.WriteLine($"ID: {c.Id} - {c.Nombre}");
+                }
+
+                Console.Write("Ingrese el ID de la carrera: ");
+                if (!int.TryParse(Console.ReadLine(), out int carreraId))
+                {
+                    Console.WriteLine("❌ ID de carrera inválido.");
+                    return;
+                }
+
+                var carreraExistente = _context.Carreras.Find(carreraId);
+                if (carreraExistente == null)
+                {
+                    Console.WriteLine("❌ La carrera seleccionada no existe.");
+                    return;
+                }
+
+                var persona = new PersonaObject
+                {
+                    Nombre = nombre,
+                    Edad = edad,
+                    Genero = genero.ToUpper(),
+                    CarreraId = carreraId
+                };
+
+                _context.Personas.Add(persona);
+                _context.SaveChanges();
+
+                Console.WriteLine($"✅ Persona '{nombre}' creada exitosamente (ID: {persona.Id})");
             }
-
-            Console.Write("Ingrese el ID de la carrera: ");
-            int carreraId = int.Parse(Console.ReadLine() ?? "0");
-
-            var persona = new PersonaObject
+            catch (Exception ex)
             {
-                Nombre = nombre,
-                Edad = edad,
-                Genero = genero,
-                CarreraId = carreraId
-            };
-
-            _context.Personas.Add(persona);
-            _context.SaveChanges();
-
-            Console.WriteLine("✅ Persona creada y guardada en la base de datos.");
+                Console.WriteLine($"❌ Error al crear persona: {ex.Message}");
+            }
         }
     }
 }
