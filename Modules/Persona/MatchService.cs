@@ -24,7 +24,6 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
                 return false;
             }
 
-            // Verificar si ya existe el like
             var likeExistente = await _context.Likes
                 .FirstOrDefaultAsync(l => l.PersonaQueDaLikeId == personaQueDaLikeId && 
                                          l.PersonaQueRecibeLikeId == personaQueRecibeLikeId);
@@ -35,7 +34,6 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
                 return false;
             }
 
-            // Crear nuevo like
             var like = new Like
             {
                 PersonaQueDaLikeId = personaQueDaLikeId,
@@ -47,7 +45,6 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
 
             Console.WriteLine($"✅ Like dado a la persona ID: {personaQueRecibeLikeId}");
 
-            // Verificar si es match mutuo
             var likeInverso = await _context.Likes
                 .FirstOrDefaultAsync(l => l.PersonaQueDaLikeId == personaQueRecibeLikeId && 
                                          l.PersonaQueRecibeLikeId == personaQueDaLikeId);
@@ -63,7 +60,6 @@ namespace CampusLoveSimonYSantiago.Modules.Persona
 
         private async Task CrearMatch(int persona1Id, int persona2Id)
         {
-            // Ordenar IDs para evitar duplicados
             var idMenor = Math.Min(persona1Id, persona2Id);
             var idMayor = Math.Max(persona1Id, persona2Id);
 
