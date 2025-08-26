@@ -5,7 +5,7 @@ namespace CampusLoveSimonYSantiago.Shared
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Persona> Personas { get; set; }
+        public DbSet<PersonaObject> Personas { get; set; }
         public DbSet<Carrera> Carreras { get; set; }
         public DbSet<Interes> Intereses { get; set; }
         public DbSet<PersonaInteres> PersonaIntereses { get; set; }
@@ -14,7 +14,7 @@ namespace CampusLoveSimonYSantiago.Shared
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Persona>()
+            modelBuilder.Entity<PersonaObject>()
                 .HasOne(p => p.Carrera)
                 .WithMany(c => c.Personas)
                 .HasForeignKey(p => p.CarreraId);
